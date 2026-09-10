@@ -1,9 +1,13 @@
-name: Send Email on Push to Main
+name: Send Email on Push or Pull Request to Main
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+    types: [opened, closed, synchronize, reopened]
 
 jobs:
   send-email:
@@ -21,6 +25,7 @@ jobs:
           from: GitHub Actions
           body: |
             Repository: ${{ github.repository }}
+            Event: ${{ github.event_name }}
             Branch: ${{ github.ref_name }}
             Commit: ${{ github.sha }}
             Author: ${{ github.actor }}
